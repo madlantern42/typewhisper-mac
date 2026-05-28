@@ -23,6 +23,9 @@ struct AdvancedSettingsView: View {
 
     var body: some View {
         Form {
+            // PERSONAL MODIFICATION: fork feature toggles.
+            PersonalSettingsSection()
+
             // MARK: - Support Diagnostics
             Section(localizedAppText("Support Diagnostics", de: "Support-Diagnose")) {
                 Button {

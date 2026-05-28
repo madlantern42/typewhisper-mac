@@ -140,6 +140,7 @@ final class DictionaryService: ObservableObject {
         entry.original = original
         entry.replacement = replacement
         entry.caseSensitive = caseSensitive
+        entry.modifiedAt = Date() // PERSONAL MODIFICATION: keep sync timestamp fresh
 
         do {
             try context.save()
@@ -166,6 +167,7 @@ final class DictionaryService: ObservableObject {
         guard let context = modelContext else { return }
 
         entry.isEnabled.toggle()
+        entry.modifiedAt = Date() // PERSONAL MODIFICATION: keep sync timestamp fresh
 
         do {
             try context.save()
@@ -458,6 +460,60 @@ final class DictionaryService: ObservableObject {
         } catch {
             logger.error("Failed to delete correction: \(error.localizedDescription)")
             throw DictionaryServiceMutationError.saveFailed(error)
+        }
+    }
+
+    // MARK: - PERSONAL MODIFICATION: cross-machine sync support
+
+    /// Snapshot of all entries in the sync wire format.
+    func syncSnapshot() -> [SyncEntry] {
+        entries.map { e in
+            SyncEntry(
+                id: e.id,
+                type: e.type.rawValue,
+                original: e.original,
+                replacement: e.replacement,
+                caseSensitive: e.caseSensitive,
+                isEnabled: e.isEnabled,
+                modifiedAt: e.modifiedAt
+            )
+        }
+    }
+
+    /// Upsert entries received from another machine, keyed by `id`.
+    /// Callers pass only the entries that should win (see DictionarySyncMerge).
+    func applySyncedEntries(_ incoming: [SyncEntry]) {
+        guard let context = modelContext, !incoming.isEmpty else { return }
+
+        let existingByID = Dictionary(entries.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+
+        for item in incoming {
+            guard let type = DictionaryEntryType(rawValue: item.type) else { continue }
+            if let existing = existingByID[item.id] {
+                existing.original = item.original
+                existing.replacement = item.replacement
+                existing.caseSensitive = item.caseSensitive
+                existing.isEnabled = item.isEnabled
+                existing.entryType = item.type
+                existing.modifiedAt = item.modifiedAt
+            } else {
+                context.insert(DictionaryEntry(
+                    id: item.id,
+                    type: type,
+                    original: item.original,
+                    replacement: item.replacement,
+                    caseSensitive: item.caseSensitive,
+                    isEnabled: item.isEnabled,
+                    modifiedAt: item.modifiedAt
+                ))
+            }
+        }
+
+        do {
+            try context.save()
+            loadEntries()
+        } catch {
+            logger.error("Failed to apply synced entries: \(error.localizedDescription)")
         }
     }
 

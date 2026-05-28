@@ -30,6 +30,9 @@ final class DictionaryEntry {
     var isEnabled: Bool
     var createdAt: Date
     var usageCount: Int
+    /// PERSONAL MODIFICATION: last-modified timestamp for cross-machine sync
+    /// (last-writer-wins merge). Defaults to createdAt for existing rows.
+    var modifiedAt: Date = Date()
 
     var type: DictionaryEntryType {
         get { DictionaryEntryType(rawValue: entryType) ?? .term }
@@ -44,7 +47,8 @@ final class DictionaryEntry {
         caseSensitive: Bool = false,
         isEnabled: Bool = true,
         createdAt: Date = Date(),
-        usageCount: Int = 0
+        usageCount: Int = 0,
+        modifiedAt: Date = Date()
     ) {
         self.id = id
         self.entryType = type.rawValue
@@ -54,6 +58,7 @@ final class DictionaryEntry {
         self.isEnabled = isEnabled
         self.createdAt = createdAt
         self.usageCount = usageCount
+        self.modifiedAt = modifiedAt
     }
 
     var displayText: String {

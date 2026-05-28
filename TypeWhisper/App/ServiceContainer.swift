@@ -20,6 +20,7 @@ final class ServiceContainer: ObservableObject {
     let audioDuckingService: AudioDuckingService
     let mediaPlaybackService: MediaPlaybackService
     let dictionaryService: DictionaryService
+    let dictionarySyncService: DictionarySyncService // PERSONAL MODIFICATION
     let snippetService: SnippetService
     let soundService: SoundService
     let audioDeviceService: AudioDeviceService
@@ -89,6 +90,7 @@ final class ServiceContainer: ObservableObject {
         audioDuckingService = AudioDuckingService()
         mediaPlaybackService = MediaPlaybackService()
         dictionaryService = DictionaryService()
+        dictionarySyncService = DictionarySyncService(dictionaryService: dictionaryService) // PERSONAL MODIFICATION
         snippetService = SnippetService()
         soundService = SoundService()
         audioDeviceService = AudioDeviceService(
@@ -270,6 +272,9 @@ final class ServiceContainer: ObservableObject {
 
         // Start memory service
         memoryService.startListening()
+
+        // PERSONAL MODIFICATION: start cross-machine dictionary sync if configured.
+        dictionarySyncService.startIfConfigured()
 
         // Validate license if needed
         await licenseService.validateIfNeeded()

@@ -150,6 +150,16 @@ enum UserDefaultsKeys {
     static let lastSeenReleaseFingerprint = "lastSeenReleaseFingerprint"
     static let lastAcknowledgedPostUpdatePromptRelease = "lastAcknowledgedPostUpdatePromptRelease"
 
+    // MARK: - Personal modifications (fork additions)
+    /// Fuzzy/phonetic matching of near-variants to protected dictionary terms.
+    static let fuzzyTermMatchingEnabled = "fuzzyTermMatchingEnabled"
+    /// Show an editable review window before inserting the transcript.
+    static let reviewBeforeInsert = "reviewBeforeInsert"
+    /// Sync the dictionary through a JSON file in a cloud-drive folder.
+    static let dictionarySyncEnabled = "dictionarySyncEnabled"
+    /// Security-scoped bookmark to the folder holding dictionary-sync.json.
+    static let dictionarySyncFolderBookmark = "dictionarySyncFolderBookmark"
+
     // MARK: - Supporter
     static let supporterTier = "supporterTier"
     static let supporterStatus = "supporterStatus"

@@ -1290,18 +1290,35 @@ final class DictationViewModel: ObservableObject {
                         activeApp: activeApp, language: language, originalText: result.text
                     )
                 } else {
-                    let insertionText = DictationInsertionTextFormatter.textForInsertion(text)
-                    _ = try await textInsertionService.insertText(
-                        insertionText,
-                        preserveClipboard: preserveClipboard,
-                        autoEnter: self.effectiveAutoEnterEnabled,
-                        outputFormat: self.effectiveOutputFormat
-                    )
-                    EventBus.shared.emit(.textInserted(TextInsertedPayload(
-                        text: insertionText,
-                        appName: activeApp.name,
-                        bundleIdentifier: activeApp.bundleId
-                    )))
+                    // PERSONAL MODIFICATION: optional review-before-insert window.
+                    // The user can edit the transcript; edits are inserted and
+                    // newly introduced proper nouns are learned as dictionary terms.
+                    var shouldInsert = true
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKeys.reviewBeforeInsert) {
+                        if let edited = await TranscriptReviewController.shared.review(original: text) {
+                            if edited != text {
+                                dictionaryService.learnTermsFromReview(original: text, edited: edited)
+                            }
+                            text = edited
+                        } else {
+                            shouldInsert = false // user cancelled — insert nothing
+                        }
+                    }
+
+                    if shouldInsert {
+                        let insertionText = DictationInsertionTextFormatter.textForInsertion(text)
+                        _ = try await textInsertionService.insertText(
+                            insertionText,
+                            preserveClipboard: preserveClipboard,
+                            autoEnter: self.effectiveAutoEnterEnabled,
+                            outputFormat: self.effectiveOutputFormat
+                        )
+                        EventBus.shared.emit(.textInserted(TextInsertedPayload(
+                            text: insertionText,
+                            appName: activeApp.name,
+                            bundleIdentifier: activeApp.bundleId
+                        )))
+                    }
                 }
 
                 let modelDisplayName = modelManager.resolvedModelDisplayName(

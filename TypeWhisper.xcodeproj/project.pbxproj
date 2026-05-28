@@ -402,6 +402,18 @@
 		AA00000000000000000301 /* LicenseSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000000287 /* LicenseSettingsView.swift */; };
 		AA00000000000000000302 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000000288 /* WelcomeSheet.swift */; };
 		AA00000000000000000303 /* SupporterBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000000289 /* SupporterBadgeView.swift */; };
+		AA00000000000000009001 /* FuzzyTermMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009001 /* FuzzyTermMatcher.swift */; };
+		AA00000000000000009002 /* DictionaryService+FuzzyTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009002 /* DictionaryService+FuzzyTerms.swift */; };
+		AA00000000000000009003 /* DictionarySyncModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009003 /* DictionarySyncModels.swift */; };
+		AA00000000000000009004 /* DictionarySyncMerge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009004 /* DictionarySyncMerge.swift */; };
+		AA00000000000000009005 /* DictionarySyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009005 /* DictionarySyncService.swift */; };
+		AA00000000000000009006 /* PersonalSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009006 /* PersonalSettingsSection.swift */; };
+		AA00000000000000009007 /* ReviewLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009007 /* ReviewLearning.swift */; };
+		AA00000000000000009008 /* TranscriptReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009008 /* TranscriptReviewView.swift */; };
+		AA00000000000000009009 /* TranscriptReviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009009 /* TranscriptReviewController.swift */; };
+		AA00000000000000009101 /* FuzzyTermMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009101 /* FuzzyTermMatcherTests.swift */; };
+		AA00000000000000009102 /* DictionarySyncMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009102 /* DictionarySyncMergeTests.swift */; };
+		AA00000000000000009103 /* ReviewLearningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000000000000009103 /* ReviewLearningTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -842,6 +854,18 @@
 		BB00000000000000000287 /* LicenseSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseSettingsView.swift; sourceTree = "<group>"; };
 		BB00000000000000000288 /* WelcomeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSheet.swift; sourceTree = "<group>"; };
 		BB00000000000000000289 /* SupporterBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupporterBadgeView.swift; sourceTree = "<group>"; };
+		BB00000000000000009001 /* FuzzyTermMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/FuzzyTermMatcher.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009002 /* DictionaryService+FuzzyTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/DictionaryService+FuzzyTerms.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009003 /* DictionarySyncModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/DictionarySyncModels.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009004 /* DictionarySyncMerge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/DictionarySyncMerge.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009005 /* DictionarySyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/DictionarySyncService.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009006 /* PersonalSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/PersonalSettingsSection.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009007 /* ReviewLearning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/ReviewLearning.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009008 /* TranscriptReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/TranscriptReviewView.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009009 /* TranscriptReviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisper/Personal/TranscriptReviewController.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009101 /* FuzzyTermMatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisperTests/FuzzyTermMatcherTests.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009102 /* DictionarySyncMergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisperTests/DictionarySyncMergeTests.swift"; sourceTree = SOURCE_ROOT; };
+		BB00000000000000009103 /* ReviewLearningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TypeWhisperTests/ReviewLearningTests.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1349,6 +1373,15 @@
 				BB00000000000000000074 /* AudioDuckingService.swift */,
 				BB00000000000000000273 /* MediaPlaybackService.swift */,
 				BB00000000000000000079 /* DictionaryService.swift */,
+				BB00000000000000009001 /* FuzzyTermMatcher.swift */,
+				BB00000000000000009002 /* DictionaryService+FuzzyTerms.swift */,
+				BB00000000000000009003 /* DictionarySyncModels.swift */,
+				BB00000000000000009004 /* DictionarySyncMerge.swift */,
+				BB00000000000000009005 /* DictionarySyncService.swift */,
+				BB00000000000000009006 /* PersonalSettingsSection.swift */,
+				BB00000000000000009007 /* ReviewLearning.swift */,
+				BB00000000000000009008 /* TranscriptReviewView.swift */,
+				BB00000000000000009009 /* TranscriptReviewController.swift */,
 				BB00000000000000000271 /* DictionaryExporter.swift */,
 				BB00000000000000000081 /* SnippetService.swift */,
 				BB00000000000000000086 /* SoundService.swift */,
@@ -2019,6 +2052,9 @@
 					AA8C1D4E5F60718293A4B5C6 /* DictationShortSpeechTests.swift */,
 				D63A42880A0BA4C84F36E873 /* DictionaryServiceTests.swift */,
 				A8D4F2B6E1C3097B5F8A4E62 /* DictionaryExporterTests.swift */,
+				BB00000000000000009101 /* FuzzyTermMatcherTests.swift */,
+				BB00000000000000009102 /* DictionarySyncMergeTests.swift */,
+				BB00000000000000009103 /* ReviewLearningTests.swift */,
 				8E39448D561C47B16EEF4C6B /* HTTPRequestParserTests.swift */,
 				3F476E4F05313F6BF4E696A5 /* HistoryServiceTests.swift */,
 				B91F00000000000000000005 /* RecentTranscriptionPaletteHandlerTests.swift */,
@@ -3371,6 +3407,9 @@
 					BB8C1D4E5F60718293A4B5C6 /* DictationShortSpeechTests.swift in Sources */,
 				B4CC04DF94001FF7220789BC /* DictionaryServiceTests.swift in Sources */,
 				C7A3E9F1D5B2084A6E9C3D71 /* DictionaryExporterTests.swift in Sources */,
+				AA00000000000000009101 /* FuzzyTermMatcherTests.swift in Sources */,
+				AA00000000000000009102 /* DictionarySyncMergeTests.swift in Sources */,
+				AA00000000000000009103 /* ReviewLearningTests.swift in Sources */,
 				F635B3F08018D57E0CB709BF /* HTTPRequestParserTests.swift in Sources */,
 				6A9D1EE0C163693B1A798779 /* HistoryServiceTests.swift in Sources */,
 				A91F00000000000000000005 /* RecentTranscriptionPaletteHandlerTests.swift in Sources */,
@@ -3503,6 +3542,15 @@
 				AA00000000000000000077 /* DictionaryEntry.swift in Sources */,
 				AA00000000000000000078 /* TermPack.swift in Sources */,
 				AA00000000000000000079 /* DictionaryService.swift in Sources */,
+				AA00000000000000009001 /* FuzzyTermMatcher.swift in Sources */,
+				AA00000000000000009002 /* DictionaryService+FuzzyTerms.swift in Sources */,
+				AA00000000000000009003 /* DictionarySyncModels.swift in Sources */,
+				AA00000000000000009004 /* DictionarySyncMerge.swift in Sources */,
+				AA00000000000000009005 /* DictionarySyncService.swift in Sources */,
+				AA00000000000000009006 /* PersonalSettingsSection.swift in Sources */,
+				AA00000000000000009007 /* ReviewLearning.swift in Sources */,
+				AA00000000000000009008 /* TranscriptReviewView.swift in Sources */,
+				AA00000000000000009009 /* TranscriptReviewController.swift in Sources */,
 				AA00000000000000000080 /* Snippet.swift in Sources */,
 				AA00000000000000000081 /* SnippetService.swift in Sources */,
 				AA00000000000000000082 /* DictionaryViewModel.swift in Sources */,

@@ -120,6 +120,8 @@ final class PostProcessingPipeline {
                     result = snippetService.applySnippets(to: result)
                 case -3:
                     result = dictionaryService.applyCorrections(to: result)
+                    // PERSONAL MODIFICATION: fuzzy/phonetic protected-term matching.
+                    result = dictionaryService.applyFuzzyTermMatching(to: result)
                 default:
                     result = try await plugins[step.id].process(text: result, context: context)
                 }
