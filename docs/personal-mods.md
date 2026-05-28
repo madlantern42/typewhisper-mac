@@ -90,3 +90,105 @@ Dropbox, …) which is account-based, not Apple-ID-based.
 **Known limitation:** deletions are not propagated (no tombstones). An entry
 deleted on one machine can reappear from another's file and must be deleted
 again. A dictionary mostly grows, so this is an accepted trade-off.
+
+---
+
+## Maintenance notes
+
+### Adding a new file to `TypeWhisper/Personal/`
+The Xcode project uses explicit file references (no synchronized groups), so a
+new file on disk is invisible to the build until it is registered. **Do not use
+the `xcodeproj` Ruby gem** — its `save` corrupts this project on the
+`MLXVLM` SwiftPM product (the gem cannot serialize a build file whose product
+reference has no parent group, and silently writes a damaged pbxproj). Use the
+hand-edit script instead:
+
+```bash
+# 1. Add the file path(s) to APP_FILES or TEST_FILES in scripts/add_personal_files.py
+# 2. Run:
+python3 scripts/add_personal_files.py
+# 3. Verify:
+plutil -lint TypeWhisper.xcodeproj/project.pbxproj
+```
+
+The script is idempotent and uses anchored single-occurrence replacements; it
+will refuse to run if the file is already registered.
+
+### Build + test commands
+```bash
+# Build
+xcodebuild build -project TypeWhisper.xcodeproj -scheme TypeWhisper \
+  -configuration Debug -destination 'platform=macOS' \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+
+# Just the new tests
+xcodebuild test -project TypeWhisper.xcodeproj -scheme TypeWhisper \
+  -destination 'platform=macOS' \
+  -only-testing:TypeWhisperTests/FuzzyTermMatcherTests \
+  -only-testing:TypeWhisperTests/DictionarySyncMergeTests \
+  -only-testing:TypeWhisperTests/ReviewLearningTests \
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+```
+
+### Convention
+Every edit to an upstream file is tagged with the comment
+`PERSONAL MODIFICATION`. During a rebase, `git grep "PERSONAL MODIFICATION"`
+gives the exhaustive list of touch points.
+
+---
+
+## Known issues / future work
+
+### Review window — focus restoration
+`TranscriptReviewController.finish(with:)` reactivates the captured target app
+and waits **150 ms** before resuming the continuation that triggers the paste.
+That delay is the knob to turn if paste ever lands in the wrong app on a slow
+machine — try 250–400 ms. The capture point is
+`NSWorkspace.shared.frontmostApplication` at the moment `review()` is called,
+which is *before* `NSApp.activate` is invoked, so it should always be the user's
+intended target. Has not been GUI-tested across edge cases (Spaces switches,
+fullscreen apps).
+
+### Fuzzy matcher — false-positive tuning
+`FuzzyTermMatcher` defaults: `minLength: 5`, `maxDistanceRatio: 0.34`,
+`requireSameFirstLetter: true`, plus an ambiguity guard that rejects ties.
+If users report unwanted rewrites:
+- raise `minLength`
+- lower `maxDistanceRatio` (stricter)
+- keep `requireSameFirstLetter` on (it is the strongest guard)
+- consider an English-dictionary check (skip fuzzy if token *is* a real word).
+
+Settings UI for these knobs is not wired; they are constructor parameters.
+
+### ReviewLearning — uppercase requirement
+Only words containing at least one uppercase letter are learned as terms. This
+filters common-word swaps ("again", "today") and matches the actual product
+intent (learn brand / proper names). If users want lowercase technical jargon
+("transformer") learned too, drop the `isUppercase` guard in
+`ReviewLearning.newTerms` and add a different filter (e.g. a stopword list).
+
+### Sync — tombstones
+The current design propagates additions and edits but **not deletions**. If
+deletion propagation becomes important, the path is: add a `Deletion` SwiftData
+model with `(id, deletedAt)`, write tombstones into the sync file, and have
+`applySyncedEntries` honor incoming tombstones by deleting (and re-writing the
+tombstone forward). Adds enough complexity that it was deferred.
+
+### Sync — multi-folder / per-feature
+Snippets are also user personalization but not synced. Same pattern would
+apply (`snippets-sync.json` in the same folder). Watch out for the
+`snippets.store` location and the existing `SnippetService` API surface.
+
+### LLM cleanup pass (deferred Layer 3)
+The original design discussion called out a third layer: feed a few-shot of
+`(raw, edited)` pairs to the existing LLM post-processing step so it
+generalizes stylistic corrections beyond what dictionary + fuzzy can catch.
+Not implemented — would require capturing review pairs and threading them
+into the prompt that `PostProcessingPipeline` priority-300 step constructs.
+
+### Settings UI surface
+All three personal toggles live in **Settings → Advanced** as injected
+sections at the top of `AdvancedSettingsView`. If you ever want a dedicated
+tab, the wire-up points are in `TypeWhisper/Views/SettingsView.swift`:
+`SettingsTab` enum + `settingsDetail(for:)` switch + the destinations array.
+That's a bigger upstream surface and was avoided on purpose.
